@@ -3,11 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/SE_SP_24/LAB211/ingredients-manage/src/gui/utilities/Menu.java</file>
-            <file>file:/D:/SE_SP_24/LAB211/ingredients-manage/src/bussiness/service/BeverageRecipesService.java</file>
-            <file>file:/D:/SE_SP_24/LAB211/ingredients-manage/src/bussiness/service/DispensingService.java</file>
-            <file>file:/D:/SE_SP_24/LAB211/ingredients-manage/src/bussiness/service/IngredientsService.java</file>
-            <file>file:/D:/SE_SP_24/LAB211/ingredients-manage/src/bussiness/service/ReportService.java</file>
+            <file>file:/D:/SE_SP_24/LAB211/ingredients-manage/src/gui/ui/IngredientsManage.java</file>
         </group>
     </open-files>
 </project-private>

@@ -9,7 +9,6 @@ import bussiness.entity.DispensingDrink;
 import bussiness.entity.IngredientsInformation;
 import bussiness.entity.MenuInformation;
 import data.DataFile;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +35,7 @@ public class ReportService {
     /**
      * Displays the available ingredients along with their quantities.
      */
-    public void displayAvailableIngredients() throws IOException {
+    public void displayAvailableIngredients() {
         ingredientsDataFile.loadData(ingredientsMap, ingredientsFilePath);
         System.out.println("Available Ingredients:");
         display();
@@ -57,7 +56,7 @@ public class ReportService {
     /**
      * Displays the drinks that are out of ingredients.
      */
-    public void displayDrinksOutOfIngredients() throws IOException {
+    public void displayDrinksOutOfIngredients() {
         menuDataFile.loadData(menuMap, menuFilePath);
         ingredientsDataFile.loadData(ingredientsMap, ingredientsFilePath);
         System.out.println("| Code     | Name              |");

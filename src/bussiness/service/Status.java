@@ -15,21 +15,10 @@ import java.time.format.DateTimeFormatter;
 */
 public class Status {
 
-   /**
-    * Represents an item that has passed its expiration date.
-    */
+   
    public static final String EXPIRED = "Expired";
-   /**
-    * Represents an item that is currently out of stock.
-    */
    public static final String OUT_OF_STOCK = "Out of stock";
-   /**
-    * Represents an item that is currently in stock.
-    */
    public static final String IN_STOCK = "In stock";
-   /**
-    * Represents an item that is within its expiration date.
-    */
    public static final String IN_DATE = "In date";
 
    /**
