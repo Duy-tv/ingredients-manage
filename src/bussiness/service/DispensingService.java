@@ -16,15 +16,17 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * DispensingService class provides methods for dispensing drinks, checking ingredient availability,
- * and managing the list of drinks being dispensed.
- * It interacts with IngredientsInformation, MenuInformation, and DispensingDrink entities.
- * 
+ * DispensingService class provides methods for dispensing drinks, checking
+ * ingredient availability, and managing the list of drinks being dispensed. It
+ * interacts with IngredientsInformation, MenuInformation, and DispensingDrink
+ * entities.
+ *
  * @author Duy.Tran
  */
 public class DispensingService {
 
     private Inputer inputer = new Inputer();
+    private Status status = new Status();
     private TreeMap<String, IngredientsInformation> ingredientsMap = new TreeMap<>();
     private TreeMap<String, MenuInformation> menuMap = new TreeMap<>();
     private List<DispensingDrink> dispensingList = new ArrayList<>();
@@ -36,9 +38,9 @@ public class DispensingService {
     private String pathName;
 
     /**
-     * Constructor for DispensingService.
-     * Loads menu data and initializes the list of drinks being dispensed.
-     * 
+     * Constructor for DispensingService. Loads menu data and initializes the
+     * list of drinks being dispensed.
+     *
      * @param fileName The name of the file containing dispensing data.
      */
     public DispensingService(String fileName) {
@@ -81,8 +83,8 @@ public class DispensingService {
     }
 
     /**
-     * Dispenses a drink based on user input of drink code and quantity.
-     * Checks ingredient availability before dispensing.
+     * Dispenses a drink based on user input of drink code and quantity. Checks
+     * ingredient availability before dispensing.
      */
     public void dispenseDrink() {
         String code = inputer.inputString("Enter Code: ");
@@ -93,6 +95,7 @@ public class DispensingService {
             if (check) {
                 String drinkName = menuInfo.getName();
                 DispensingDrink dispensingDrink = new DispensingDrink(code, drinkName, quantity);
+                dispensingDrink.setOrderNum(dispensingList.size() + 1);
                 dispensingList.add(dispensingDrink);
                 dispensingDataFile.saveOrderData(dispensingList, "Order.dat", "Drink ordered successfully.");
                 show();
@@ -104,7 +107,7 @@ public class DispensingService {
 
     /**
      * Checks the availability of ingredients for dispensing a drink.
-     * 
+     *
      * @param drinkCode The code of the drink.
      * @param quantity The quantity of the drink.
      * @return True if ingredients are available, false otherwise.
@@ -118,7 +121,8 @@ public class DispensingService {
             if (ingredientsMap.containsKey(ingredientCode)) {
                 IngredientsInformation existingIngredient = ingredientsMap.get(ingredientCode);
                 int requiredQuantity = ingredient.getQuantity() * quantity;
-                if (existingIngredient.getQuantity() >= requiredQuantity) {
+                String ingredientStatus = status.checkStatus(existingIngredient.getQuantity(), existingIngredient.getExpirationDate());
+                if (existingIngredient.getQuantity() < requiredQuantity || !ingredientStatus.equals(Status.EXPIRED)) {
                     existingIngredient.setQuantity(existingIngredient.getQuantity() - requiredQuantity);
                 } else {
                     check = false;
@@ -133,7 +137,7 @@ public class DispensingService {
             ingredientDataFile.saveData(ingredientsMap, "Ingredients.dat", "Updated ingredient quantities.");
             System.out.println("Drink dispensed successfully.");
         } else {
-            System.out.println("Drink dispensing failed due to insufficient ingredients.");
+            System.out.println("Drink dispensing failed due to insufficient ingredients or expired.");
         }
         return check;
     }
@@ -142,14 +146,15 @@ public class DispensingService {
      * Updates the quantity of a dispensed drink.
      */
     public void updateDispensingDrink() {
-        String codeToUpdate = inputer.inputString("Enter the code of the drink to update: ");
-        int oldQuantity = inputer.inputInt("Enter the old quantity: ");
+        int order = inputer.inputInt("Enter the order: ");
         boolean found = false;
         for (DispensingDrink drink : dispensingList) {
-            if (drink.getCode().equals(codeToUpdate) && drink.getQuantity() == oldQuantity) {
+            if (drink.getOrderNum() == order) {
                 found = true;
-                int newQuantity = inputer.inputInt("Enter the new quantity for the drink: ");
-                boolean check = checkDrink(codeToUpdate, newQuantity);
+                int newQuantityDrink = inputer.inputInt("Enter the new quantity for the drink: ");
+                int newQuantity = drink.getQuantity() + newQuantityDrink;
+                String drinkCode = drink.getCode();
+                boolean check = checkDrink(drinkCode, newQuantity);
                 if (check) {
                     drink.setQuantity(newQuantity);
                     dispensingDataFile.saveOrderData(dispensingList, "Order.dat", "Drink quantity updated successfully.");
@@ -160,7 +165,7 @@ public class DispensingService {
             }
         }
         if (!found) {
-            System.out.println("No drink found with the provided code and old quantity.");
+            System.out.println("No drink found with the provid order.");
         }
     }
 
@@ -168,7 +173,7 @@ public class DispensingService {
      * Displays the list of drinks being dispensed.
      */
     public void show() {
-        System.out.println("|   Code   |       Name        | Quantity |");
+        System.out.println("| Order |   Code   |       Name        | Quantity |");
         for (DispensingDrink dispendingDrink : dispensingList) {
             System.out.println(dispendingDrink.toString());
         }

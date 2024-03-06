@@ -15,6 +15,7 @@ public class DispensingDrink implements Serializable, KeyProvider {
     private String code;
     private String name;
     private int quantity;
+    private int orderNum;
 
     /**
      * Constructs a DispensingDrink object with the specified code, name, and quantity.
@@ -23,10 +24,11 @@ public class DispensingDrink implements Serializable, KeyProvider {
      * @param name The name of the drink being dispensed.
      * @param quantity The quantity of the drink being dispensed.
      */
-    public DispensingDrink(String code, String name, int quantity) {
+    public DispensingDrink( String code, String name, int quantity) {
         this.code = code;
         this.name = name;
         this.quantity = quantity;
+        this.orderNum = 0;
     }
 
     /**
@@ -83,6 +85,14 @@ public class DispensingDrink implements Serializable, KeyProvider {
         this.quantity = quantity;
     }
 
+    public int getOrderNum() {
+        return orderNum;
+    }
+
+    public void setOrderNum(int orderNum) {
+        this.orderNum = orderNum;
+    }
+
     /**
      * Retrieves the key of the dispensing drink, which is its code.
      * 
@@ -100,7 +110,7 @@ public class DispensingDrink implements Serializable, KeyProvider {
      */
     @Override
     public String toString() {
-        return String.format("|%10s|%19s|%10d|", code, name, quantity);
+        return String.format("|%7d|%10s|%19s|%10d|",orderNum, code, name, quantity);
     }
-    
+
 }

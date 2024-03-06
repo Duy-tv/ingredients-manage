@@ -15,9 +15,10 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * ReportService class provides methods for generating reports related to ingredients and drinks.
- * It includes methods to display available ingredients, drinks out of ingredients, and all dispensing drinks.
- * 
+ * ReportService class provides methods for generating reports related to
+ * ingredients and drinks. It includes methods to display available ingredients,
+ * drinks out of ingredients, and all dispensing drinks.
+ *
  * @author Duy.Tran
  */
 public class ReportService {
@@ -82,13 +83,11 @@ public class ReportService {
 
         dispensingDataFile.loadOrderData(dispensingList, dispensingFilePath);
 
-        display();
-
-        for (DispensingDrink dispensingDrink : dispensingList) {
-            System.out.println(dispensingDrink.toString());
+        System.out.println("| Order |   Code   |       Name        | Quantity |");
+        for (DispensingDrink dispendingDrink : dispensingList) {
+            System.out.println(dispendingDrink.toString());
         }
-
-        System.out.println("--------------------------------------------");
+        System.out.println("+-------+----------+-------------------+----------+");
     }
 
     /**

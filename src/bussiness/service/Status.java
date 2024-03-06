@@ -7,6 +7,7 @@ package bussiness.service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 /**
 * This class provides methods for checking and managing item statuses.
@@ -28,10 +29,20 @@ public class Status {
     * @return true if the expiration date has passed, false otherwise
     */
    private static boolean isExpired(String expirationDateStr) {
-       LocalDate expirationDate = LocalDate.parse(expirationDateStr, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-       LocalDate currentDate = LocalDate.now();
-       return expirationDate.isBefore(currentDate);
-   }
+    if (expirationDateStr.isEmpty()) {
+        // If the expiration date string is empty, consider it as not expired
+        return false;
+    }
+    try {
+        LocalDate expirationDate = LocalDate.parse(expirationDateStr, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        LocalDate currentDate = LocalDate.now();
+        return expirationDate.isBefore(currentDate);
+    } catch (DateTimeParseException e) {
+        // Handle parsing exception (e.g., invalid date format)
+        System.out.println("Error parsing expiration date: " + e.getMessage());
+        return false;
+    }
+}
 
    /**
     * Checks the status of an item based on its quantity and expiration date.
